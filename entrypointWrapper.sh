@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TEMP=. read -r -a HOSTNAME_SLICED <<< "$NODE_NAME"
+read -r -d "." HOSTNAME_SLICED <<< "$NODE_NAME"
 export DOCKER_HOSTNAME="${ENVIRONMENT}.${HOSTNAME_SLICED}"
 export PREFIX="${ENVIRONMENT}.servers"
 
