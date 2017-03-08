@@ -1,3 +1,6 @@
 FROM lesaux/diamond-containercollector
-ADD diamond/diamond.conf /etc/diamond/diamond.conf
-ADD diamond/collectors/DockerContainerCollector.conf /etc/diamond/collectors/DockerContainerCollector.conf
+COPY diamond/diamond.conf /etc/diamond/diamond.conf
+COPY diamond/collectors/DockerContainerCollector.conf /etc/diamond/collectors/DockerContainerCollector.conf
+COPY entrypointWrapper.sh /
+RUN chmod +x /entrypointWrapper.sh
+ENTRYPOINT ["/entrypointWrapper.sh"]
