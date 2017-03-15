@@ -5,6 +5,9 @@ COPY entrypointWrapper.sh /
 COPY dockercontainer.py /usr/local/share/diamond/collectors/dockercontainer/
 RUN chmod +x /entrypointWrapper.sh
 
+#  Default prefix value
+ENV PREFIX coco.servers
+
 # remove the entry point and add a cmd
 ENTRYPOINT []
 CMD ["/entrypointWrapper.sh"]
