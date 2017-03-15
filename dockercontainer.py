@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# This file was taken from the source repository https://github.com/lesaux/diamond-DockerContainerCollector/blob/master/dockercontainer.py
+# and modified to
+# 1. keep the stats backward compatible with the current ones. The new source image renamed the docker stats into "cpu_stats" and "memory_stats"
+# 2. replace the '.' in the container names with "_", as dots are namespace separators for metrics in graphite, and Kubernetes introduces dots in the container names.
 import argparse
 import re
 import os
