@@ -55,7 +55,7 @@ class DockerContainerCollector(diamond.collector.Collector):
             # Kubernetes puts "." in the container names, that doesn't play well with Graphite. Replace them with "_"
             if name.find("/") != -1:
                 name = name.rsplit('/',1)[1]
-            if name.find(".") != -1:
+            if name.find('.') != -1:
                 name = name.replace(".", "_")
             #memory metrics
             self.memory = self.flatten_dict (metrics['memory_stats'])
