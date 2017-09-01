@@ -1,0 +1,61 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: {{ .Values.service.name }} 
+  labels:
+    chart: "{{ .Chart.Name | trunc 63 }}"
+    chartVersion: "{{ .Chart.Version | trunc 63 }}"
+    visualize: "true"
+    app: {{ .Values.service.name }} 
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.service.name }} 
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service.name }} 
+        visualize: "true"
+    spec:
+      containers:
+      - name: {{ .Values.service.name }} 
+        image: "{{ .Values.image.repository }}:{{ .Chart.Version }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: host-docker-sock
+          mountPath: /var/run/docker.sock
+        - name: host-docker-proc
+          mountPath: /host_proc
+        env:
+        - name: GRAPHITE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: global-config
+              key: graphite.host
+        - name: GRAPHITE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: global-config
+              key: graphite.port
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: global-config
+              key: environment
+        - name: INTERVAL
+          value: "{{ .Values.env.INTERVAL }}"
+        - name: PREFIX
+          value: "{{ .Values.env.PREFIX }}"
+        resources: 
+{{ toYaml .Values.resources | indent 12 }}
+      volumes:
+      - name: host-docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+      - name: host-docker-proc
+        hostPath:
+          path: /proc
