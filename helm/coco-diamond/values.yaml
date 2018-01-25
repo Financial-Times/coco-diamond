@@ -3,14 +3,15 @@
 # Declare variables to be passed into your templates.
 service:
   name: "" # The name of the service, should be defined in the specific app-configs folder.
-  hasHealthcheck: "true"
+  hasHealthcheck: "false"
 image:
   repository: coco/coco-diamond-auto
   pullPolicy: IfNotPresent
 resources:
   limits:
     memory: 512Mi
+  requests:
+    memory: 470Mi
 env:
   INTERVAL: 60
   PREFIX: coco.servers
-
